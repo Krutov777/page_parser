@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "krutov_pageloader"
+version = "0.1.0"
+description = "Page Loader - hexlet third project"
+authors = ["Alexander Krutov <madrid211514@gmail.com>"]
+packages = [
+    { include = "pageloader" },
+]
+repository = "https://github.com/Krutov777/page_parser"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+pageloader = "pageloader.scripts.pageloader:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
