@@ -115,7 +115,7 @@ class PageLoader():
             page_content,
             resource_dir_name
             )
-        with Bar('Progress', max=len(links) + 5) as progress:
+        with Bar('Progress', max=len(links) + 2) as progress:
             self.logger.debug('Saving page')
             file_name = url.get_filename()
             path_to_save_file = os.path.join(self.output_dir, file_name)
