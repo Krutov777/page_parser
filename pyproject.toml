@@ -13,6 +13,7 @@ python = "^3.8"
 requests = "^2.26.0"
 beautifulsoup4 = "^4.9.3"
 progress = "^1.6"
+requests-mock = "^1.9.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9.2"
