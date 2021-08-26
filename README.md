@@ -1,1 +1,2 @@
 # page_parser
+[![Maintainability](https://api.codeclimate.com/v1/badges/379d822e5d6dfb379f86/maintainability)](https://codeclimate.com/github/Krutov777/page_parser/maintainability)[![Test Coverage](https://api.codeclimate.com/v1/badges/379d822e5d6dfb379f86/test_coverage)](https://codeclimate.com/github/Krutov777/page_parser/test_coverage)
