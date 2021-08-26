@@ -1,7 +1,8 @@
 install:
 	poetry install
-build:
+publish:
 	poetry build
+	poetry publish --dry-run
 test:
 	poetry run pytest
 test-with-coverage:
@@ -10,9 +11,12 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 package-reinstall:
 	python3 -m pip install --user dist/*.whl --force-reinstall
-publish:
-	poetry publish --dry-run
 lint:
-	poetry run flake8 gendiff
+	poetry run flake8 pageloader
+analyze:
+	poetry run mypy pageloader
+isort:
+	poetry run isort pageloader
+	poetry run isort tests/*.py
 pageloader:
 	poetry run pageloader

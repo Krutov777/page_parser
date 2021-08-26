@@ -1,18 +1,19 @@
 """Module with requests."""
-from urllib.parse import urljoin
 import logging
-import requests
 import os
+from urllib.parse import urljoin
 
+import requests
 from bs4 import BeautifulSoup  # type: ignore
 from progress.bar import Bar  # type: ignore
 
-from pageloader.url import UrlConverter
 from pageloader.storage import ContentStorage
+from pageloader.url import UrlConverter
 
 
 class LoaderError(Exception):
     """Base class for exceptions in this module."""
+    pass
 
 
 class PageLoader():
@@ -21,7 +22,7 @@ class PageLoader():
         self.url = url
         self.output_dir = output_dir
         self.logger = logging.getLogger(__name__)
-    
+
     def _recieve_content(self):
         try:
             response = requests.get(self.url)
@@ -29,14 +30,13 @@ class PageLoader():
         except requests.exceptions.RequestException as recieve_err:
             self.logger.error(
                 'Recieve resourece{url} error: {error}'.format(
-                url = self.url, 
-                error = recieve_err,
-                ),
-            )
+                    url=self.url,
+                    error=recieve_err
+                    ))
             raise LoaderError() from recieve_err
         return response.content
-    
-    def _need_to_be_downloaded(self, link):   
+
+    def _need_to_be_downloaded(self, link):
         """Check needable downloaded resource."""
         if link is None:
             return False
@@ -73,8 +73,12 @@ class PageLoader():
         except OSError as save_err:
             self.logger.error('Save error: {error}'.format(error=save_err))
             raise LoaderError() from save_err
-    
-    def _create_resources_directory(self, content_for_save, path_to_resource_dir):
+
+    def _create_resources_directory(
+        self,
+        content_for_save,
+        path_to_resource_dir
+            ):
         try:
             storage = ContentStorage(content_for_save, path_to_resource_dir)
             storage.create_dir()
@@ -99,7 +103,7 @@ class PageLoader():
             path_to_file = os.path.join(path_to_resources_dir, name_for_save)
             self._save_content(file_content, path_to_file)
             on_progress()
-    
+
     def load(self):
         """Save page with resources from url."""
         self.logger.info('Recieving page content')
@@ -107,7 +111,10 @@ class PageLoader():
         url = UrlConverter(self.url)
         resource_dir_name = url.get_dirname()
         self.logger.debug('Start search resources on page')
-        links, content_for_save = self._get_resource_links(page_content, resource_dir_name)
+        links, content_for_save = self._get_resource_links(
+            page_content,
+            resource_dir_name
+            )
         with Bar('Progress', max=len(links) + 5) as progress:
             self.logger.debug('Saving page')
             file_name = url.get_filename()
@@ -119,8 +126,11 @@ class PageLoader():
             path_to_resources_dir = os.path.join(
                 self.output_dir,
                 resource_dir_name,
-            )
-            self._create_resources_directory(page_content, path_to_resources_dir)
+                )
+            self._create_resources_directory(
+                page_content,
+                path_to_resources_dir
+                )
             progress.next()
 
             self.logger.debug('Saving resources')
