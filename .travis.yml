@@ -1,26 +1,26 @@
 env:
   global:
     - CC_TEST_REPORTER_ID=a79cbf16e072a214e8016c33ce8373a681e7427d75006d8250c50c7911bfd278
+
 language: python
 python: 3.8
 
-branches:
-  only:
-    - master
+install: make
 
 before_install:
   - pip install poetry
-install:
-  - make install
+  - pip install flake8
+  - pip install pytest
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+
 script:
   - make lint
   - make analyze
   - make test-with-coverage
+
 after_script:
-  - ./cc-test-reporter format-coverage -d -t coverage.py coverage.xml after-build $TRAVIS_TEST_RESULT
-  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
